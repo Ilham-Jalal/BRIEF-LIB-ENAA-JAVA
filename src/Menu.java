@@ -115,9 +115,9 @@ class Menu {
         int Choix = 0;
         do {
             System.out.println("++++Interface de Réservations++++");
-            System.out.println("1- Effectuer une réservation.");
-            System.out.println("2- Annuler une réservation.");
-            System.out.println("3- Afficher les réservations.");
+            System.out.println("1- Ajouter une réservation.");
+            System.out.println("2- Afficher les réservations.");
+            System.out.println("3- Annuler une réservation.");
             System.out.println("4- Returner à l'interface principale .");
             System.out.print("  Entrez un choix : ");
             Choix = new Scanner(System.in).nextInt();
@@ -126,10 +126,10 @@ class Menu {
                     enaa.AddReservation();
                     break;
                 case 2:
-                    enaa.ReturnReservation();
+                    enaa.DisplayReservations();
                     break;
                 case 3:
-                    enaa.DisplayReservations();
+                    enaa.ReturnReservation();
                     break;
                 case 4 :
                     interfaceMENU();
@@ -138,6 +138,6 @@ class Menu {
                     System.out.println(" choix invalid !  ");
                     break;
             }
-        }while (Choix != 5);
+        }while (Choix != 4);
     }
 }
