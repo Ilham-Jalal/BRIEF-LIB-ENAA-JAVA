@@ -6,16 +6,15 @@ public class books {
     String ISBN;
     int publishDate;
     student Owner = new student();
-    Boolean Booked = false;
    void ModifyBook(){
         Scanner input = new Scanner(System.in);
-        System.out.println("enter title :");
+        System.out.println("entrez titre :");
         this.Title= input.nextLine();
-        System.out.println("enter book's author's name :");
+        System.out.println("entrez le nom de l'auteur :");
         this.Author= input.nextLine();
-        System.out.println("enter book's ISBN :");
+        System.out.println("entez ISBN :");
         this.ISBN= input.nextLine();
-        System.out.println("enter book's publish date :");
+        System.out.println("entez la date de publication :");
         this.publishDate= input.nextInt();
     }
 

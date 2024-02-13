@@ -60,7 +60,7 @@ class Menu {
                     enaa.DeletBook ();
                     break;
                 case 5:
-                    enaa.searchbook();
+                    enaa.searchBook();
                     break;
                 case 6:
                     interfaceMENU();
@@ -100,7 +100,7 @@ class Menu {
                     enaa.Deletstudent();
                     break;
                 case 5:
-                    enaa.SearchStudent();
+                    enaa.searchStudent();
                     break;
                 case 6:
                     interfaceMENU();
@@ -116,22 +116,14 @@ class Menu {
         do {
             System.out.println("++++Interface de Réservations++++");
             System.out.println("1- Ajouter une réservation.");
-            System.out.println("2- Afficher les réservations.");
-            System.out.println("3- Annuler une réservation.");
-            System.out.println("4- Returner à l'interface principale .");
+            System.out.println("2- Returner à l'interface principale .");
             System.out.print("  Entrez un choix : ");
             Choix = new Scanner(System.in).nextInt();
             switch (Choix) {
                 case 1:
                     enaa.AddReservation();
                     break;
-                case 2:
-                    enaa.DisplayReservations();
-                    break;
-                case 3:
-                    enaa.ReturnReservation();
-                    break;
-                case 4 :
+                case 2 :
                     interfaceMENU();
                     break;
                 default:

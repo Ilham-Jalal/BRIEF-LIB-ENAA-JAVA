@@ -1,5 +1,4 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -8,7 +7,7 @@ class Library {
 
         ArrayList<books> ListeLivres = new ArrayList<books>();
         ArrayList<student> ListeStudent = new ArrayList<student>();
-        ArrayList<Reservation> ListeReservation = new ArrayList<Reservation>();
+
 
         void AddBook (){
             Scanner input = new Scanner(System.in);
@@ -37,15 +36,7 @@ class Library {
                 System.out.println(" ISBN :" + ListeLivres.get(i).ISBN);
                 System.out.println(" Date de publication :" + ListeLivres.get(i).publishDate);
 
-                if(ListeLivres.get(i).Booked){
-                    System.out.println("=== Le livre est reservé par ===");
-                    System.out.println("=== Nom :"+ListeLivres.get(i).Owner.name);
-                    System.out.println("=== Adresse :"+ListeLivres.get(i).Owner.address);
-                    System.out.println("=== Némuro d'identification :"+ListeLivres.get(i).Owner.idnum);
-                } else {
 
-                    System.out.println("Le livre est disponible pour reservé");
-                }
             }
         }
     }
@@ -54,7 +45,6 @@ class Library {
         Scanner input = new Scanner(System.in);
         int imodify = -1;
         if (ListeLivres.isEmpty()) {
-            System.out.println("     La bibliothèque est vide.     ");
             System.out.println(" Aucun livre trouvé pour l'instant. ");
 
         } else {
@@ -91,20 +81,25 @@ class Library {
             System.out.println("Le livre a été supprimer avec succes!");
         }
     }
-    void searchbook(){
+    void searchBook() {
         Scanner input = new Scanner(System.in);
-        System.out.println("entrer le titre a rechercher ");
-        String TITRE =input.nextLine();
-        books Book =ListeLivres.stream().filter(studs->studs.Title.equalsIgnoreCase(TITRE)).findFirst().orElse(null);
-        if(Book!=null){
-            System.out.println("++++ LE LIVRE EST TROUVE ++++");
-            System.out.println("  le titre est :"+Book.Title );
-            System.out.println("  l'auteur est :"+Book.Author );
-            System.out.println("  ISBN est :"+Book.ISBN );
-            System.out.println("  la date de publication est :"+Book.publishDate );
-        }else {
-            System.out.println("aucun livre correspond a votre recherche");}
+        System.out.println("Entrer le titre de livre à rechercher: ");
+        String titre = input.nextLine();
+          for (books book : ListeLivres) { // تحقق من الكتب التابعة لكل طالب
+                if (book.Title.equalsIgnoreCase(titre)) {
+                    System.out.println("++++ LIVRE TROUVÉ ++++");
+                    System.out.println("Le titre: " + book.Title);
+                    System.out.println("L'auteur: " + book.Author);
+                    System.out.println("ISBN: " + book.ISBN);
+                    System.out.println("La date de publication: " + book.publishDate);
+                    break;
+                }
+                else{
+                    System.out.println("Aucun livre ne correspond à votre recherche.");
+                }
+            }
     }
+
     void Addstudent () {
         Scanner input = new Scanner(System.in);
         student Student = new student();
@@ -129,18 +124,11 @@ class Library {
                     System.out.println(" Adresse :" + ListeStudent.get(i).address);
                     System.out.println(" Numéro d'identification :" + ListeStudent.get(i).idnum);
 
-                    if (ListeStudent.get(i).Owned_by.isEmpty()) {
-                        System.out.println("  L'étudiant n'a jamais réservé  ");
-                    } else {
-                        int ireserve = i;
-                        System.out.println(" Livres reservés :");
-                        for (int j = 0; j < ListeStudent.get(ireserve).Owned_by.size(); j++) {
-                            System.out.println(" Livre " + (j + 1) + " :" + ListeStudent.get(ireserve).Owned_by.get(j).Title);
-                        }
+
                     }
                 }
             }
-        }
+
 
     void ModifystudentLb(){
         Scanner input = new Scanner(System.in);
@@ -177,141 +165,56 @@ class Library {
             for (int i=0 ; i<ListeLivres.size();i++){
                 if (ListeStudent.get(i).name.equals(nom)){
                     ListeStudent.remove(i);
-                }
-            }
-            System.out.println("L'etudiant a été supprimer avec succes!");
-        }
-    }
-    void SearchStudent(){
-        Scanner input = new Scanner(System.in);
-        System.out.println("entrer le nom de l'etudiant a rechercher ");
-        String Nom =input.nextLine();
-        student Student =ListeStudent.stream().filter(studs->studs.name.equalsIgnoreCase(Nom)).findFirst().orElse(null);
-        if(Student!=null){
-            System.out.println("++++ L ETUDIANT EST TROUVE ++++");
-            System.out.println(" le nom est : "+Student.name );
-            System.out.println(" l'adresse est : "+Student.address );
-            System.out.println(" Numéro d'identification est : "+Student.idnum);
-        }else {
-            System.out.println("aucun etudiant correspond a votre recherche");
-        }
-    }
-    void AddReservation() {
-         Scanner input = new Scanner(System.in);
-        Reservation POOReservation = new Reservation();
-        LocalDate currenteDate = LocalDate.now();
-        boolean BookFound = false;
-        boolean StudentFound = false;
-        if (ListeLivres.isEmpty()){
-            System.out.println("   La bibliothèque est vide.    ");
-            System.out.println("Aucun livre trouvé pour l'instant.");
-        } else if (ListeStudent.isEmpty()){
-
-            System.out.println("   La bibliothèque est vide.     ");
-            System.out.println("Aucun étudiant trouvé pour l'instant.");
-        } else {
-            System.out.println("   Ajouter une réservation    ");
-            System.out.println("Entrez le nom d'étudiant qui reserve : ");
-            String CheckStudentName = input.nextLine();
-            for (student ReserveStudent : ListeStudent){
-                if (ReserveStudent.name.equals(CheckStudentName)){
-                    StudentFound = true;
-                    System.out.println("Entrez Le titre du livre à reserver : ");
-                    String CheckBooktitre = input.nextLine();
-                    for (books ReserveBook : ListeLivres){
-                        if(ReserveBook.Title.equals(CheckBooktitre)){
-                            BookFound = true;
-                            if(!ReserveBook.Booked) {
-                                ReserveStudent.Owned_by.add(ReserveBook);
-                                POOReservation.BookReserv = ReserveBook;
-                                ReserveBook.Owner = ReserveStudent;
-                                POOReservation.StudentReserv = ReserveStudent;
-                                POOReservation.dateBegin = currenteDate ;
-                                System.out.println("Entrez la date fin de réservation (AAAA-MM-JJ) : ");
-                                String FormatterDate = input.nextLine();
-                                POOReservation.dateEnd = LocalDate.parse(FormatterDate, DateTimeFormatter.ISO_DATE);
-                                ListeReservation.add(POOReservation);
-                                System.out.println("La réservation effuectée avec succes");
-                                ReserveBook.Booked = true;
-                            } else {
-                                System.out.println("=====Le livre est deja reservé=====");
-                            }
-                            break;
-                        }
-                    }
-                    if (!BookFound){
-                        System.out.println("=====Le livre n'existe pas!=====");
-                    }
                     break;
                 }
-            }
-            if(!StudentFound){
-                System.out.println("=====L'étudiant n'existe pas!=====");
-            }
-
-        }
-
-    }
-    void DisplayReservations() {
-        if (ListeReservation.isEmpty()) {
-            System.out.println(" Aucune réservation pour l'instant ! ");
-        } else {
-            System.out.println("=====La liste des réservations=====");
-            for (int i = 0; i < ListeReservation.size(); i++) {
-                System.out.println("+++++ Réservation ID : " + (i + 1) + "+++++");
-                System.out.println(" Nom d'etudiant : " + ListeReservation.get(i).StudentReserv.name);
-                System.out.println(" Numéro d'identification : " + ListeReservation.get(i).StudentReserv.idnum);
-
-                System.out.println(" Livre N° : " + (i + 1));
-                System.out.println(" Titre de livre réservé : " + ListeReservation.get(i).BookReserv.Title);
-                System.out.println(" Date début de réservation : " + ListeReservation.get(i).dateBegin);
-                System.out.println(" Date fin de réservation : " + ListeReservation.get(i).dateEnd);
-            }
-        }
-    }
-    void ReturnReservation() {
-            Scanner input = new Scanner(System.in);
-        if (ListeReservation.isEmpty()) {
-            System.out.println(" Aucune réservation pour l'instant ! ");
-
-        } else {
-            System.out.println("   Annuler une réservations  ");
-            System.out.println("Entrez le nom de l'étudiant :");
-            String returnStudent = input.nextLine();
-            boolean foundReservation = false;
-            for (int i = 0; i <ListeReservation.size(); i++) {
-                if (ListeReservation.get(i).StudentReserv.name.equals(returnStudent)) {
-                    foundReservation = true;
-                    System.out.println(" Livres réservés par " + returnStudent + " :");
-                    for (Reservation  ReturnReservation : ListeReservation) {
-                        System.out.println("- " + ReturnReservation.BookReserv.Title);
+                else {System.out.println("L'etudiant a été supprimer avec succes!");
                     }
-                    System.out.println("Entrez le titre du livre à annuler :");
-                    String returnBookTitle = input.nextLine();
-                    for (books ReturnBook : ListeLivres) {
-                        if (ReturnBook.Title.equals(returnBookTitle)) {
-                            ReturnBook.Booked = false;
-                            ReturnBook.Owner = null;
-                            for (student ReturnStudent : ListeStudent){
-                                if(ReturnStudent.name.equals(returnStudent)){
-                                    ReturnStudent.Owned_by.remove(ReturnBook);
-                                }
-                            }
-                            ListeReservation.remove(i);
-                            System.out.println(" L'annulation effuectée avec succes ");
-                            break;
-                        }
+            }
+
+        }
+    }
+    void searchStudent() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Entrer le nom de l'étudiant à rechercher: ");
+        String nom = input.nextLine();
+
+        for (student student : ListeStudent) {
+            if (student.name.equalsIgnoreCase(nom)) {
+                System.out.println("++++ L'ÉTUDIANT EST TROUVÉ ++++");
+                System.out.println("Nom: " + student.name);
+                System.out.println("Adresse: " + student.address);
+                System.out.println("Numéro d'identification: " + student.idnum);
+                 break;
+            }
+            else {
+                System.out.println("Aucun étudiant ne correspond à votre recherche.");
+            }
+            }
+        }
+
+
+
+    void AddReservation() {
+        Scanner input = new Scanner(System.in);
+        books Book = new books();
+        if (ListeLivres.isEmpty()) {
+            System.out.println("Aucun livre trouvé pour l'instant.");
+        } else {
+            System.out.println("====Ajouter une réservation====");
+            System.out.println("Entrez le nom d'étudiant qui reserve : ");
+            String StudentName = input.nextLine();
+            System.out.println("entrez le titre du livre à reserver");
+            String title = input.nextLine();
+            for (int i = 0; i < ListeLivres.size(); i++) {
+                if (ListeLivres.get(i).Title.equals(title)) {
+                    if (Book.Owner != null) {
+                        System.out.println("Le livre  a été reserver par " + StudentName);
+                    } else {
+                        System.out.println("Le livre n'a pas encore été emprunté");
                     }
                 }
             }
-            if (!foundReservation) {
-                System.out.println("Aucune réservation trouvée !");
-            }
         }
     }
-
-
-
-
 }
 
